@@ -1,0 +1,35 @@
+
+
+
+[
+    {
+        "name": "Amur Leopard",
+        "population": 84,
+        "habitat": "Temperate forests",
+        "threats": ["Poaching", "Habitat loss", "Climate change"],
+        "image": "images/amur_leopard.webp",
+        "description": "A critically endangered species found in temperate forests.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Russia, China"
+    },
+    {
+        "name": "Vaquita",
+        "population": 10,
+        "habitat": "Shallow marine waters",
+        "threats": ["Fishing nets", "Habitat destruction"],
+        "image": "images/vaquita.webp",
+        "description": "A marine mammal at risk due to fishing nets and habitat destruction.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Gulf of California, Mexico"
+    },
+    {
+        "name": "Sumatran Rhino",
+        "population": 80,
+        "habitat": "Tropical rainforests",
+        "threats": ["Poaching", "Deforestation"],
+        "image": "images/sumatran_rhino.webp",
+        "description": "One of the most endangered rhino species.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Indonesia"
+    }
+]

@@ -7,6 +7,20 @@ const lastModified = document.querySelector("#lastmodified");
 const date = new Date(document.lastModified);
 lastModified.innerHTML = `Last Modified: <span>${new Intl.DateTimeFormat("en-US").format(date)}</span>`;
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("currentyear").textContent = new Date().getFullYear();
+
+  const menuButton = document.getElementById("menu");
+  menuButton.addEventListener("mouseover", () => {
+      menuButton.style.backgroundColor = "lightblue";
+  });
+  menuButton.addEventListener("mouseout", () => {
+      menuButton.style.backgroundColor = "";
+  });
+});
+
+ 
+
 const hamButton = document.querySelector('#menu');
 const navigation = document.querySelector('.navigation');
 hamButton.addEventListener('click', () => {

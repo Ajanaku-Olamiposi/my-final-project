@@ -18,12 +18,42 @@
     <meta property="og:url" content="https://ajanaku-olamiposi.github.io/wdd231/myproject/index.html" />
     <meta property="og:image" content="https://ajanaku-olamiposi.github.io/wdd231/myproject/images/endangered.webp" />   
     <script src="scripts/project.js" defer></script>
+    <style>
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header.dark-mode, footer.dark-mode {
+            color: black;
+        }
+
+        button.dark-mode {
+            color: #ffffff;
+            background-color: #333;
+            border: 1px solid #555;
+        }
+
+        .species-container.dark-mode {
+            background-color: #1e1e1e;
+            border-color: #333;
+        }
+
+        .species-card.dark-mode {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border-color: #333;
+        }
+        
+    </style>
 </head>
 <body>
     <header>
         <h1>Endangered species</h1>
         <!-- <p>awareness of endangered species</p> -->
         <button id="menu"></button>
+        <button id="toggle-theme">Toggle Dark Mode</button> <!-- Dark mode button -->
         <nav class="navigation">
             <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
@@ -74,19 +104,142 @@
                 Write to your representatives about environmental issues.
                 Support policies that protect habitats and endangered species.</li>
         </ol>
-        <p>A little bit of extra knowledge for you, the top most endagered species is:</p>
-        <ol>
-            <li>Armur Leopard<br>First on the list of the world's most endangered animals in 2022 is the amur leopard. Between 2014 and 2015, only around 92 individuals were left in their natural range. This number is now estimated to be around 84. They are extremely vulnerable to poachers, who kill them for their coats and bones, the latter of which is sold for use in traditional Asian medicine. They are at risk of habitat loss due to natural and man-made fires. Climate change is also leading to a decrease in prey availability.</li>
-        </ol>
+        <p>A little bit of extra knowledge for you, the top most endangered species is:</p>
+<ul>
+    <li>
+        Armur Leopard<br>
+        First on the list of the world's most endangered animals in 2022 is the amur leopard. Between 2014 and 2015, only around 92 individuals were left in their natural range. This number is now estimated to be around 84. They are extremely vulnerable to poachers, who kill them for their coats and bones, the latter of which is sold for use in traditional Asian medicine. They are at risk of habitat loss due to natural and man-made fires. Climate change is also leading to a decrease in prey availability.
+        <div id="wiki-content">Loading more information...</div> <!-- Placeholder -->
+    </li>
+</ul>
         <div>
             <img src="images/leo2.webp" alt="A Armur leopard" loading="lazy">
         </div>
         <p>Click <a href="about.html">here</a> to know more about our organisation or to contact us
         <br>Kindly fill this <a href="feedback.html">Feedback form</a> to help improve our services</p>
+        <P>Others include</P>
+       <div id="species-container"></div>
     </main>
     <footer>
         <p>© <span id="currentyear"></span> | Ajanaku Olamiposi | Ibadan, Nigeria.</p>
         <p id="lastmodified"></p>
     </footer>
+    <script>
+        // Dark Mode Functionality
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleThemeButton = document.getElementById("toggle-theme");
+
+            // Toggle dark mode and save preference in local storage
+            toggleThemeButton.addEventListener("click", () => {
+                const isDarkMode = document.body.classList.toggle("dark-mode");
+                localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+            });
+
+            // Load saved theme preference on page load
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+        });
+    </script>
+    <script>
+        // Fetch Wikipedia data for "Amur Leopard"
+        document.addEventListener("DOMContentLoaded", () => {
+            const wikiContentDiv = document.getElementById("wiki-content");
+    
+            fetch("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Amur%20Leopard&format=json&origin=*")
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the first search result
+                    const searchResults = data.query.search;
+                    if (searchResults.length > 0) {
+                        const firstResultTitle = searchResults[0].title;
+    
+                        // Fetch the content of the first search result
+                        fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&titles=${encodeURIComponent(firstResultTitle)}&format=json&origin=*`)
+                            .then(response => response.json())
+                            .then(data => {
+                                const pageId = Object.keys(data.query.pages)[0];
+                                const extract = data.query.pages[pageId].extract;
+    
+                                // Update the page with the fetched Wikipedia content
+                                wikiContentDiv.textContent = extract;
+                            })
+                            .catch(error => {
+                                console.error("Error fetching Wikipedia page content:", error);
+                                wikiContentDiv.textContent = "Could not load additional information.";
+                            });
+                    } else {
+                        wikiContentDiv.textContent = "No additional information found.";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching Wikipedia search results:", error);
+                    wikiContentDiv.textContent = "Error loading information.";
+                });
+        });
+        // JSON-like structure for species data
+const speciesData = [
+    {
+        "name": "Javan Rhino",
+        "population": 84,
+        "habitat": "Temperate forests",
+        "threats": ["Poaching", "Habitat loss", "Climate change"],
+        "description": "A critically endangered species found in temperate forests.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Russia, China"
+    },
+    {
+        "name": "Vaquita",
+        "population": 10,
+        "habitat": "Shallow marine waters",
+        "threats": ["Fishing nets", "Habitat destruction"],
+        
+        "description": "A marine mammal at risk due to fishing nets and habitat destruction.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Gulf of California, Mexico"
+    },
+    {
+        "name": "Sumatran Rhino",
+        "population": 80,
+        "habitat": "Tropical rainforests",
+        "threats": ["Poaching", "Deforestation"],
+       
+        "description": "One of the most endangered rhino species.",
+        "conservationStatus": "Critically Endangered",
+        "region": "Indonesia"
+    }
+];
+
+// Function to dynamically display species information
+function populateSpeciesInfo() {
+    const speciesContainer = document.getElementById("species-container");
+
+    speciesData.forEach(species => {
+        // Create a card for each species
+        const speciesCard = document.createElement("div");
+        speciesCard.classList.add("species-card");
+
+        // Add content to the species card
+        speciesCard.innerHTML = `
+            
+            <h3>${species.name}</h3>
+            <p><strong>Population:</strong> ${species.population}</p>
+            <p><strong>Habitat:</strong> ${species.habitat}</p>
+            <p><strong>Threats:</strong> ${species.threats.join(", ")}</p>
+            <p><strong>Description:</strong> ${species.description}</p>
+            <p><strong>Conservation Status:</strong> ${species.conservationStatus}</p>
+            <p><strong>Region:</strong> ${species.region}</p>
+        `;
+
+        // Append the card to the container
+        speciesContainer.appendChild(speciesCard);
+    });
+}
+
+// Run the function to populate species information when the page loads
+document.addEventListener("DOMContentLoaded", populateSpeciesInfo);
+    </script>
+    
 </body>
 </html>
